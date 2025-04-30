@@ -13,3 +13,6 @@ ENV/
 .vscode/
 *.swp
 *.swo
+OneDrive*/
+*.log
+*.tmp

@@ -1,14 +1,28 @@
 version: '3'
 
 services:
-  email-receiver:
-    build: .
-    container_name: email-receiver
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: unified-backend
     volumes:
-      - ./.env:/app/.env
+      - ./src:/app/src
+    env_file:
+      - .env
     environment:
-      - EMAIL_ADDRESS=${EMAIL_ADDRESS:-santoshmudhiraj81@gmail.com}
-      - IMAP_SERVER=${IMAP_SERVER:-imap.gmail.com}
-      - IMAP_PORT=${IMAP_PORT:-993}
-    # Don't put EMAIL_PASSWORD here for security; use .env file
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
+      - IMAP_SERVER=imap.gmail.com
+      - IMAP_PORT=993
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: unified-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
     restart: unless-stopped

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  email-receiver:
+    build: .
+    container_name: email-receiver
+    volumes:
+      - ./.env:/app/.env
+    environment:
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS:-santoshmudhiraj81@gmail.com}
+      - IMAP_SERVER=${IMAP_SERVER:-imap.gmail.com}
+      - IMAP_PORT=${IMAP_PORT:-993}
+    # Don't put EMAIL_PASSWORD here for security; use .env file
+    restart: unless-stopped
